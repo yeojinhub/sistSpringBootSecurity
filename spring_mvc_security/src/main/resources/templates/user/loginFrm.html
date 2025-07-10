@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- favicon 설정 -->
+<link rel="shorcut icon" href="http://192.168.10.75/images/favicon.ico"/>
+<!-- 부트스트랩 CDN -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"/>
+
+<style type="text/css">
+
+</style>
+<!-- jquery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> 
+<script type="text/javascript">
+window.onload=function(){
+	document.getElementById("floatingInput").addEventListener("keyup",enter);
+	document.getElementById("floatingPassword").addEventListener("keyup",enter);
+	document.getElementById("btnLogin").addEventListener("click",chkNull);
+
+} //onload
+
+function enter(evt){
+	//alert(evt.which+" / "+evt.keyCode)s
+	if(evt.which==13){//엔터가 눌려지면
+		chkNull();
+	} //end if
+	
+} //enter
+
+function chkNull(){
+	
+		var obj=document.loginFrm;
+		var id=obj.id.value;
+		var pass=obj.pass.value;
+
+		if(id == ""){
+			alert("아이디는 필수 입력 입니다.");
+			obj.id.focus();
+			return;
+		} //end if
+		if(pass == ""){
+			alert("비밀번호는 필수 입력 입니다.");
+			obj.pass.focus();
+			return;
+		} //end if
+		
+		loginProcess(id, pass);
+	//document.getElementById("output").innerHTML=evt.which;
+} //chkNull
+
+function loginProcess(id, pass){
+	var param = {id:id, pass:pass}
+	$.ajax({
+		url: "/user/loginProcess",
+		type: "POST",
+		data: param,
+		dataType: "JSON",
+		error: function(xhr){
+			alert("로그인 작업이 정상적으로 수행되지 않았습니다.\n 잠시 후에 다시 시도해주세요"+xhr.status);
+			console.log(xhr.status);
+		}, //error
+		success: function(jsonObj){
+			var output = "";
+				
+			if( jsonObj.resultFlag ){
+				// 로그인 성공
+				//location.href="/";
+				output = `<strong>${ jsonObj.name }</strong>님 로그인하셨습니다.<br>
+						전화번호 : ${ jsonObj.tel }<br>
+						이메일 : ${ jsonObj.email }`;
+			} else {
+				// 로그인 실패
+				// output = "<img src='images/login_fail.jpg' style='width:200px'/>";
+				output += "<br/>아이디나 비번을 확인해주세요.";
+			} //end if else
+				$("#LoginFail").html(output);
+		} //success
+	}); //ajax
+} //loginProcess
+</script>
+
+</head>
+<body>
+<div id="container" style="width:400px">
+<form name="loginFrm" action="#void">
+    <h1 class="h3 mb-3 fw-normal">로그인</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" name="id" id="floatingInput" placeholder="아이디">
+      <label for="floatingInput">아이디</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" name="pass" id="floatingPassword" placeholder="비밀번호">
+      <label for="floatingPassword">비밀번호</label>
+    </div>
+
+	<div id="LoginFail"></div>
+    <button class="btn btn-primary w-100 py-2" id="btnLogin" type="button">로그인</button>
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 내꺼야</p>
+  </form>	
+</div>
+</body>
+</html>

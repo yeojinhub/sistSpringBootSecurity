@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.sist.user.MemberMapper">
+
+<insert id="insertMember" parameterType="memberDTO">
+	insert into member_spring(id, pass, name, birth, tel, email, gender, zipcode, addr, addr2, intro, ip)
+	values(#{id}, #{pass}, #{name}, #{birth}, #{tel}, #{email}, #{gender}, #{zipcode}, #{addr}, #{addr2}, #{intro}, #{ip})
+</insert>
+
+<select id="selectLogin" resultType="memberDomain" parameterType="String">
+	select	name, email, tel, id, pass 
+	from	member_spring
+	where	id=#{id}
+</select>
+
+</mapper>

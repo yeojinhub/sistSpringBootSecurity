@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -31,5 +32,26 @@ public class WorkController {
 		
 		return "shaResult";
 	} //sha
+	
+	
+	@PostMapping("/cipher")
+	public String cipher(String email, Model model) {
+		String cipher = ws.cipher(email);
+		
+		model.addAttribute("cipherEmail", cipher);
+		model.addAttribute("email", email);
+		
+		return "cipherResult";
+	} //cipher
+	
+	@PostMapping("/plain")
+	public String plain(@RequestParam(name = "email") String cipherEmail, Model model) {
+		String plainEmail = ws.plain(cipherEmail);
+		
+		model.addAttribute("plainEmail", plainEmail);
+		model.addAttribute("cipherEmail", cipherEmail);
+		
+		return "plainResult";
+	} //plain
 	
 } //class

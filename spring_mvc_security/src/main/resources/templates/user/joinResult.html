@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- 파비콘(favicon) 설정 링크 -->
+<link rel="shortcut icon" href="http://localhost/images/favicon.ico"/>
+
+<!-- 부트스트랩  CDN -->    
+<link rel="stylesheet" type="text/css"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"/>
+<style type="text/css">
+
+</style>
+
+<!-- JQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js">
+</script>
+
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btnConfirm").click(function(){
+			$("#frm").submit();
+		}); //click
+	}); //ready
+</script>
+
+</head>
+<body>
+<a th:href="@{/}">메인</a>
+<div id="container">
+	<h2>회원가입 결과</h2>
+	<th:block th:if="${ addResult }">
+	<strong><span th:text="${ name }"></span>(
+	<span th:text="${ id }"></span>
+	)님 회원가입해주셔서 감사합니다.</strong><br>
+	기존의 서비스와 차별화된 경험을 제공하는 XXX 사이트에 가입하셨습니다.
+	</th:block>
+	<th:block th:unless="${ addResult }">
+	회원가입이 정상적으로 이루어지지 않았습니다.<br>
+	잠시 후 다시 시도해주세요.
+	</th:block>
+</div>
+</body>
+</html>

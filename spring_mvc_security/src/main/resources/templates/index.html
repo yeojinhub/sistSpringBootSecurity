@@ -30,5 +30,20 @@ $(function(){
 	<input type="password" name="pass" />
 	<input type="submit" value="전송" class="btn btn-sm btn-success" />
 </form>
+
+<form th:action="@{ /cipher }" method="post">
+	<label>이메일 암호화</label>
+	<input type="text" name="email" />
+	<input type="submit" value="전송" class="btn btn-sm btn-success" />
+</form>
+
+<form th:action="@{ /plain }" method="post">
+	<label>이메일 복호화</label>
+	<input type="text" name="email" />
+	<input type="submit" value="전송" class="btn btn-sm btn-success" />
+</form>
+
+<a th:href="@{/user/memberFrm}">회원가입</a>
+<a th:href="@{/user/login}">로그인</a>
 </body>
 </html>
